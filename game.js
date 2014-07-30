@@ -54,7 +54,9 @@ function drawParticles() {
 	// For each particle
 	for (var i = 0; i < particles.length; i++) {
 		var position = particles[i].position;
-		var color = "rgb(" + Math.round(192 + particles[i].temp * 4) + "," + Math.round(192 - Math.abs(particles[i].temp) * 4) + "," + Math.round(192 - particles[i].temp * 4) + ")";
+		var color = "rgb(" + Math.round(192 + particles[i].temp * 4) + 
+			"," + Math.round(192 - Math.abs(particles[i].temp) * 4) + 
+			"," + Math.round(192 - particles[i].temp * 4) + ")";
 		ctx.fillStyle = color;
 
 		// Draw a circle at our position
@@ -68,7 +70,9 @@ function drawHeatSources() {
 	// For each source
 	for (var i = 0; i < heatSources.length; i++) {
 		var position = heatSources[i].position;
-		var color = "rgb(" + Math.round(192 + heatSources[i].temp) + "," + Math.round(192 - Math.abs(heatSources[i].temp)) + "," + Math.round(192 - heatSources[i].temp) + ")";
+		var color = "rgb(" + Math.round(192 + heatSources[i].temp) + 
+			"," + Math.round(192 - Math.abs(heatSources[i].temp)) + 
+			"," + Math.round(192 - heatSources[i].temp) + ")";
 		ctx.fillStyle = color;
 
 		// Draw a circle at our position
@@ -118,7 +122,8 @@ function Particle(point, velocity, acceleration, temp) {
 }
 
 Particle.prototype.move = function () {	 
-	this.position.add(new Vector((Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2), (Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)))
+	this.position.add(new Vector((Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)
+		, (Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)))
 	// Add our current velocity to our position
 	this.position.add(this.velocity);
 	
@@ -155,9 +160,15 @@ function main() {
 	particleSize = 2;
 	particles = [];
 	for(var i = 0; i < 200; i++) {
-		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height), new Vector(), new Vector(), Math.random * 10))
+		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
+			, new Vector()
+			, new Vector()
+			, Math.random * 10))
 	}
-	heatSources = [new HeatSource(new Vector(320, 280), 50),new HeatSource(new Vector(320, 160), -50)];
+	heatSources = [new HeatSource(new Vector(240, 280), 50)
+		,new HeatSource(new Vector(240, 160), -50)
+		,new HeatSource(new Vector(440, 280), 50)
+		,new HeatSource(new Vector(440, 160), -50)];
 	
 	fanny = new Image();
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
