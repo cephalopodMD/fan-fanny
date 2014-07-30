@@ -35,8 +35,8 @@ function plotParticles(boundsX, boundsY) {
 		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
 
 		// Update particles to account for all sources
-		particle.submitToHeat(heatSources, 2);
-		particle.submitToHeat(particles, 1/4);
+		particle.submitToHeat(heatSources, 1);
+		particle.submitToHeat(particles, 1/10);
 		  
 		// Move our particles
 		particle.move();
@@ -132,7 +132,7 @@ Particle.prototype.submitToHeat = function (sources, influence) {
 	// for each passed source
 	for (var i = 0; i < sources.length; i++) {
 		var dist = this.position.getDistanceFrom(sources[i].position);
-		if (dist > 1) {
+		if (dist > 0) {
 			this.temp += influence * (sources[i].temp - this.temp) / (dist);
 		}
 	}
