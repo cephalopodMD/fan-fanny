@@ -118,7 +118,7 @@ function Particle(point, velocity, acceleration, temp) {
 }
 
 Particle.prototype.move = function () {	 
-	this.position.add(new Vector((Math.random() - .5) * (Math.atan(this.temp/4) + Math.PI/2), (Math.random() - .5) * (Math.atan(this.temp/4) + Math.PI/2)))
+	this.position.add(new Vector((Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2), (Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)))
 	// Add our current velocity to our position
 	this.position.add(this.velocity);
 	
