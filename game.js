@@ -132,7 +132,7 @@ Particle.prototype.submitToHeat = function (sources, influence) {
 	// for each passed source
 	for (var i = 0; i < sources.length; i++) {
 		var dist = this.position.getDistanceFrom(sources[i].position);
-		if (dist > 0) {
+		if (dist > 1) {
 			this.temp += influence * (sources[i].temp - this.temp) / (dist);
 		}
 	}
