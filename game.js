@@ -35,8 +35,8 @@ function plotParticles(boundsX, boundsY) {
 		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
 
 		// Update particles to account for all sources
-		particle.submitToHeat(heatSources, 1);
-		particle.submitToHeat(particles, 1/8);
+		particle.submitToHeat(heatSources, 10);
+		particle.submitToHeat(particles, 1);
 		  
 		// Move our particles
 		particle.move();
