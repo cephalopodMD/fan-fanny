@@ -157,7 +157,7 @@ function main() {
 	for(var i = 0; i < 200; i++) {
 		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height), new Vector(), new Vector(), Math.random * 10))
 	}
-	heatSources = [new HeatSource(new Vector(320, 280), 40),new HeatSource(new Vector(320, 160), -40)];
+	heatSources = [new HeatSource(new Vector(320, 280), 50),new HeatSource(new Vector(320, 160), -50)];
 	
 	fanny = new Image();
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
