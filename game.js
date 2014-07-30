@@ -165,10 +165,10 @@ function main() {
 			, new Vector()
 			, Math.random * 10))
 	}
-	heatSources = [new HeatSource(new Vector(240, 280), 50)
-		,new HeatSource(new Vector(240, 160), -50)
-		,new HeatSource(new Vector(440, 280), 50)
-		,new HeatSource(new Vector(440, 160), -50)];
+	heatSources = [new HeatSource(new Vector(240, 280), 20)
+		,new HeatSource(new Vector(240, 160), -20)
+		,new HeatSource(new Vector(440, 280), 20)
+		,new HeatSource(new Vector(440, 160), -20)];
 	
 	fanny = new Image();
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
