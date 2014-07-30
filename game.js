@@ -160,7 +160,7 @@ function main() {
 	heatSources = [new HeatSource(new Vector(320, 280), 40),new HeatSource(new Vector(320, 160), -40)];
 	
 	fanny = new Image();
-	fanny.src = "./donkey.png";
+	fanny.src = "http://i.imgur.com/WMjaM7u.png";
 	
 	gameLoop();
 }
