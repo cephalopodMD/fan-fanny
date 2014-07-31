@@ -165,9 +165,9 @@ function main() {
 			, new Vector()
 			, Math.random * 10))
 	}
-	heatSources = [new HeatSource(new Vector(240, 280), 20)
+	heatSources = [new HeatSource(new Vector(240, 320), 20)
 		,new HeatSource(new Vector(240, 160), -20)
-		,new HeatSource(new Vector(440, 280), 20)
+		,new HeatSource(new Vector(440, 320), 20)
 		,new HeatSource(new Vector(440, 160), -20)];
 	
 	fanny = new Image();
