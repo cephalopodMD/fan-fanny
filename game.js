@@ -30,7 +30,14 @@ function plotParticles(boundsX, boundsY) {
 	for (var i = 0; i < particles.length; i++) {
 		var particle = particles[i];
 		var pos = particle.position;
-
+		
+		if (particle.x > canvas.width
+			|| particle.x < 0
+			|| particle.y >canvas.height
+			|| particle.y < 0) {
+			particle.acceleration.add(new Vector().fromAngle(particle.position.add(new Vector(-320,-240)).getAngle(),1))
+		}
+		
 		// gravity
 		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
 
@@ -103,17 +110,17 @@ Vector.prototype.getAngle = function () {
 	return Math.atan2(this.y,this.x);
 };
 
+// Allows us to get a new vector from angle and magnitude
+Vector.fromAngle = function (angle, magnitude) {
+	return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
+};
+
 // Gets distance between vectors
 Vector.prototype.getDistanceFrom = function(vector) {
 	var distanceVector = new Vector(this.x - vector.x, this.y - vector.y);
 	return distanceVector.getMagnitude();
 }
  
-// Allows us to get a new vector from angle and magnitude
-Vector.fromAngle = function (angle, magnitude) {
-	return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
-};
-
 function Particle(point, velocity, acceleration, temp) {
 	this.position = point || new Vector(320, 240);
 	this.velocity = velocity || new Vector(0, 0);
