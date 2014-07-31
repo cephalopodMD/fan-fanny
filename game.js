@@ -35,7 +35,7 @@ function plotParticles(boundsX, boundsY) {
 			|| particle.x < 0
 			|| particle.y >canvas.height
 			|| particle.y < 0) {
-			particle.acceleration.add(new Vector().fromAngle(particle.position.add(new Vector(-320,-240)).getAngle(),1))
+			particle.acceleration.add(fromAngle(-(particle.position.add(new Vector(-320,-240)).getAngle()),1))
 		}
 		
 		// gravity
