@@ -5,6 +5,30 @@ var canvas;
 var ctx;
 var fanny;
 
+function main() {
+	canvas = document.querySelector('canvas');
+	ctx = canvas.getContext('2d');
+	canvas.width = 640;
+	canvas.height = 480;
+	particleSize = 2;
+	particles = [];
+	for(var i = 0; i < 400; i++) {
+		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
+			, new Vector()
+			, new Vector()
+			, Math.random * 10))
+	}
+	heatSources = [new HeatSource(new Vector(240, 320), 20)
+		,new HeatSource(new Vector(240, 160), -20)
+		,new HeatSource(new Vector(440, 320), 20)
+		,new HeatSource(new Vector(440, 160), -20)];
+	
+	fanny = new Image();
+	fanny.src = "http://i.imgur.com/WMjaM7u.png";
+	
+	gameLoop();
+}
+
 function gameLoop() {
 	update();
 	draw();
@@ -112,6 +136,12 @@ Vector.prototype.getMagnitude = function () {
 	return Math.sqrt(this.x * this.x + this.y * this.y);
 };
  
+// Gets distance between vectors
+Vector.prototype.getDistanceFrom = function(vector) {
+	var distanceVector = new Vector(this.x - vector.x, this.y - vector.y);
+	return distanceVector.getMagnitude();
+}
+
 // Gets the angle accounting for the quadrant we're in
 Vector.prototype.getAngle = function () {
 	return Math.atan2(this.y,this.x);
@@ -121,12 +151,6 @@ Vector.prototype.getAngle = function () {
 Vector.fromAngle = function (angle, magnitude) {
 	return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 };
-
-// Gets distance between vectors
-Vector.prototype.getDistanceFrom = function(vector) {
-	var distanceVector = new Vector(this.x - vector.x, this.y - vector.y);
-	return distanceVector.getMagnitude();
-}
  
 function Particle(point, velocity, acceleration, temp) {
 	this.position = point || new Vector(320, 240);
@@ -164,28 +188,4 @@ function HeatSource(point, temp) {
 
 HeatSource.prototype.setHeat = function(temp) {
     this.temp = temp || 100;
-}
-
-function main() {
-	canvas = document.querySelector('canvas');
-	ctx = canvas.getContext('2d');
-	canvas.width = 640;
-	canvas.height = 480;
-	particleSize = 2;
-	particles = [];
-	for(var i = 0; i < 200; i++) {
-		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
-			, new Vector()
-			, new Vector()
-			, Math.random * 10))
-	}
-	heatSources = [new HeatSource(new Vector(240, 320), 20)
-		,new HeatSource(new Vector(240, 160), -20)
-		,new HeatSource(new Vector(440, 320), 20)
-		,new HeatSource(new Vector(440, 160), -20)];
-	
-	fanny = new Image();
-	fanny.src = "http://i.imgur.com/WMjaM7u.png";
-	
-	gameLoop();
 }
