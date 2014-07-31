@@ -31,11 +31,10 @@ function plotParticles(boundsX, boundsY) {
 		var particle = particles[i];
 		var pos = particle.position;
 		
-		if (particle.x > canvas.width
-			|| particle.x < 0
-			|| particle.y >canvas.height
-			|| particle.y < 0) {
-			particle.acceleration.add(fromAngle(particle.position.add(new Vector(-320,-240)).getAngle() - Math.PI,1))
+		if (pos.x > canvas.width || pos.x < 0 || pos.y >canvas.height || pos.y < 0) {
+			var central = new Vector(320 - pos.x, 240 - pos.y);
+			central.scale(1/central.getMagnitude());
+			particle.acceleration.add();
 		}
 		
 		// gravity
@@ -98,6 +97,12 @@ function Vector(x, y) {
 Vector.prototype.add = function(vector) {
 	this.x += vector.x;
 	this.y += vector.y;
+}
+ 
+// Add a vector to another
+Vector.prototype.scale = function(scalar) {
+	this.x = this.x * scalar;
+	this.y = this.y * scalar;
 }
  
 // Gets the length of the vector
