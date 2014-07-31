@@ -34,7 +34,7 @@ function plotParticles(boundsX, boundsY) {
 		if (pos.x > canvas.width || pos.x < 0 || pos.y >canvas.height || pos.y < 0) {
 			var central = new Vector(320 - pos.x, 240 - pos.y);
 			central.scale(1/central.getMagnitude());
-			particle.acceleration.add();
+			particle.acceleration.add(central);
 		}
 		
 		// gravity
