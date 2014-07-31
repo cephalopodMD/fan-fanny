@@ -31,11 +31,11 @@ function plotParticles(boundsX, boundsY) {
 		var particle = particles[i];
 		var pos = particle.position;
 		
-		if (pos.x > canvas.width || pos.x < 0) {
+		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
 			particle.velocity = new Vector(-particle.velocity.x, particle.velocity.y);
 		}
 		
-		if pos.y >canvas.height || pos.y < 0) {
+		if ((pos.y > canvas.height && particle.velocity.y > 0) || (pos.y < 0 && particle.velocity.y < 0)) {
 			particle.velocity = new Vector(particle.velocity.x, -particle.velocity.y);
 		}
 		
