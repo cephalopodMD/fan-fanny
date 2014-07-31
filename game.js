@@ -32,11 +32,11 @@ function plotParticles(boundsX, boundsY) {
 		var pos = particle.position;
 		
 		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
-			particle.velocity = new Vector(-particle.velocity.x * .5, particle.velocity.y * Math.random() * 2 - particle.velocity.y);
+			particle.velocity = new Vector(-particle.velocity.x * .5, particle.velocity.y * (Math.random() * 2 - 1));
 		}
 		
 		if ((pos.y > canvas.height && particle.velocity.y > 0) || (pos.y < 0 && particle.velocity.y < 0)) {
-			particle.velocity = new Vector(particle.velocity.x * Math.random() * 2 - particle.velocity.x, -particle.velocity.y * .5);
+			particle.velocity = new Vector(particle.velocity.x * (Math.random() * 2 - 1), -particle.velocity.y * .5);
 		}
 		
 		// gravity
