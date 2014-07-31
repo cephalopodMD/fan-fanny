@@ -31,10 +31,12 @@ function plotParticles(boundsX, boundsY) {
 		var particle = particles[i];
 		var pos = particle.position;
 		
-		if (pos.x > canvas.width || pos.x < 0 || pos.y >canvas.height || pos.y < 0) {
-			var central = new Vector(320 - pos.x, 240 - pos.y);
-			central.scale(particle.velocity.getMagnitude()/central.getMagnitude());
-			particle.velocity = central;
+		if (pos.x > canvas.width || pos.x < 0) {
+			particle.velocity = new Vector(-particle.velocity.x, particle.velocity.y);
+		}
+		
+		if pos.y >canvas.height || pos.y < 0) {
+			particle.velocity = new Vector(particle.velocity.x, -particle.velocity.y);
 		}
 		
 		// gravity
