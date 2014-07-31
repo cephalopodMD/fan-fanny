@@ -44,7 +44,7 @@ function plotParticles(boundsX, boundsY) {
 
 		// Update particles to account for all sources
 		particle.submitToHeat(heatSources, 1);
-		particle.submitToHeat(particles, 1/8);
+		particle.submitToHeat(particles, 1/2);
 		  
 		// Move our particles
 		particle.move();
