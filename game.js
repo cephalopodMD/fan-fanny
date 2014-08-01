@@ -5,6 +5,18 @@ var canvas;
 var ctx;
 var fanny;
 
+if ( !window.requestAnimationFrame ) {
+	window.requestAnimationFrame = ( function() {
+		return window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
+		function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+			window.setTimeout( callback, 1000 / 60 );
+		};
+	} )();
+}
+
 function main() {
 	canvas = document.querySelector('canvas');
 	ctx = canvas.getContext('2d');
@@ -27,8 +39,6 @@ function main() {
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
 	
 	window.requestAnimationFrame(gameLoop);
-	window.mozRequestAnimationFrame(gameLoop);
-	window.webkitRequestAnimationFrame(gameLoop);
 	//gameLoop();
 }
 
