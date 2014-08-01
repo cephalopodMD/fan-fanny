@@ -71,8 +71,8 @@ function plotParticles(boundsX, boundsY) {
 		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
 
 		// Update particles to account for all sources
-		particle.submitToHeat(heatSources, 1);
-		particle.submitToHeat(particles, 1/2);
+		particle.reactToSource(heatSources, 1);
+		particle.reactToSource(particles, 1/2);
 		
 		//collisions
 		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
@@ -137,22 +137,34 @@ Vector.prototype.add = function(vector) {
 	this.x += vector.x;
 	this.y += vector.y;
 }
- 
+
+// Gets the length of the vector
+Vector.prototype.getMagnitude = function () {
+	return Math.sqrt(this.x * this.x + this.y * this.y);
+};
+
+// Gets distance between vectors
+Vector.prototype.getDistanceVector = function(vector) {
+	return new Vector(this.x - vector.x, this.y - vector.y);
+}
+
 // Add a vector to another
 Vector.prototype.scale = function(scalar) {
 	this.x = this.x * scalar;
 	this.y = this.y * scalar;
 }
- 
-// Gets the length of the vector
-Vector.prototype.getMagnitude = function () {
-	return Math.sqrt(this.x * this.x + this.y * this.y);
-};
- 
-// Gets distance between vectors
-Vector.prototype.getDistanceFrom = function(vector) {
-	var distanceVector = new Vector(this.x - vector.x, this.y - vector.y);
-	return distanceVector.getMagnitude();
+  
+// Add a vector to another
+Vector.prototype.normalize = function() {
+	this.x = this.x * 1 / this.getMagnitude;
+	this.y = this.y * 1 / this.getMagnitude;
+}
+
+// Add a vector to another
+Vector.prototype.setMagnitude = function(scalar) {
+	this.normalize();
+	this.x = this.x * scalar;
+	this.y = this.y * scalar;
 }
 
 // Gets the angle accounting for the quadrant we're in
@@ -184,12 +196,14 @@ Particle.prototype.move = function () {
 	this.acceleration = new Vector(0, 0);
 };
 
-Particle.prototype.submitToHeat = function (sources, influence) {
+Particle.prototype.reactToSource = function (sources, influence) {
 	// for each passed source
 	for (var i = 0; i < sources.length; i++) {
-		var dist = this.position.getDistanceFrom(sources[i].position) + 1;
+		var distVec = this.position.getDistanceFrom(sources[i].position);
+		var dist = distVec.getMagnitude + 1;
 		if (dist > 0) {
-			this.temp += influence * (sources[i].temp - this.temp) / (dist * dist);
+			this.temp += influence * (sources[i].temp - this.temp) / (dist ^ 2);
+			this.acceleration.add(distVec.setMagnitude(-1/(dist ^ 2)));
 		}
 	}
 };
