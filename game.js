@@ -72,7 +72,7 @@ function plotParticles(boundsX, boundsY) {
 
 		// Update particles to account for all sources
 		particle.reactToSource(heatSources, 1);
-		particle.reactToSource(particles, 1/2);
+		particle.reactToSource(particles, 1/8);
 		
 		//collisions
 		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
