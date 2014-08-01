@@ -67,6 +67,14 @@ function plotParticles(boundsX, boundsY) {
 		var particle = particles[i];
 		var pos = particle.position;
 		
+		// gravity
+		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
+
+		// Update particles to account for all sources
+		particle.submitToHeat(heatSources, 1);
+		particle.submitToHeat(particles, 1/2);
+		
+		//collisions
 		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
 			particle.velocity = new Vector(-particle.velocity.x * .5, particle.velocity.y * (Math.random() - .5));
 		}
@@ -74,13 +82,6 @@ function plotParticles(boundsX, boundsY) {
 		if ((pos.y > canvas.height && particle.velocity.y > 0) || (pos.y < 0 && particle.velocity.y < 0)) {
 			particle.velocity = new Vector(particle.velocity.x * (Math.random() - .5), -particle.velocity.y * .5);
 		}
-		
-		// gravity
-		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
-
-		// Update particles to account for all sources
-		particle.submitToHeat(heatSources, 1);
-		particle.submitToHeat(particles, 1/2);
 		  
 		// Move our particles
 		particle.move();
