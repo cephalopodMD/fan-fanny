@@ -24,7 +24,7 @@ function main() {
 	canvas.height = 480;
 	particleSize = 2;
 	particles = [];
-	for(var i = 0; i < 400; i++) {
+	for(var i = 0; i < 100; i++) {
 		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
 			, new Vector()
 			, new Vector()
