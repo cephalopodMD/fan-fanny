@@ -38,13 +38,13 @@ function main() {
 	fanny = new Image();
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
 	
-	window.requestAnimationFrame(gameLoop);
-	//gameLoop();
+	gameLoop();
 }
 
 function gameLoop() {
 	update();
 	draw();
+	window.requestAnimationFrame(gameLoop);
 }
 
 function update() {
