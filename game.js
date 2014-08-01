@@ -199,7 +199,7 @@ Particle.prototype.move = function () {
 Particle.prototype.reactToSource = function (sources, influence) {
 	// for each passed source
 	for (var i = 0; i < sources.length; i++) {
-		var distVec = this.position.getDistanceFrom(sources[i].position);
+		var distVec = this.position.getDistanceVector(sources[i].position);
 		var dist = distVec.getMagnitude + 1;
 		if (dist > 0) {
 			this.temp += influence * (sources[i].temp - this.temp) / (dist ^ 2);
