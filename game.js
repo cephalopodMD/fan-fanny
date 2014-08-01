@@ -26,7 +26,10 @@ function main() {
 	fanny = new Image();
 	fanny.src = "http://i.imgur.com/WMjaM7u.png";
 	
-	gameLoop();
+	window.requestAnimationFrame(gameLoop);
+	window.mozRequestAnimationFrame(gameLoop);
+	window.webkitRequestAnimationFrame(gameLoop);
+	//gameLoop();
 }
 
 function gameLoop() {
@@ -44,7 +47,6 @@ function draw() {
 	ctx.drawImage(fanny, 320, 380, 100, 100);
 	drawHeatSources();
 	drawParticles();
-	window.requestAnimationFrame(gameLoop);
 }
 
 function plotParticles(boundsX, boundsY) {
