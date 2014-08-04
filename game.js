@@ -36,7 +36,7 @@ function main() {
 		,new HeatSource(new Vector(440, 160), -20)];
 	
 	fanny = new Image();
-	fanny.src = "http://i.imgur.com/WMjaM7u.png";
+	fanny.src = "https://i.imgur.com/WMjaM7u.png";
 	
 	gameLoop();
 }
