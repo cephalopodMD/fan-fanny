@@ -1,4 +1,4 @@
 fan-fanny
 =========
 
-a game to fan big ass fanny and keep her comfortable
+a game where you must fan big ass fanny and keep her comfortable
