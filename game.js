@@ -1,9 +1,11 @@
-var particleSize;
-var particles;
-var heatSources;
-var canvas;
-var ctx;
-var fanny;
+var particlesize,
+	particles,
+	heatSources,
+	canvas,
+	ctx,
+	fanny,
+	cacheCanvas,
+	cacheCtx;
 
 if ( !window.requestAnimationFrame ) {
 	window.requestAnimationFrame = ( function() {
@@ -19,24 +21,27 @@ if ( !window.requestAnimationFrame ) {
 
 function main() {
 	canvas = document.querySelector('canvas');
-	ctx = canvas.getContext('2d');
 	canvas.width = 640;
 	canvas.height = 480;
-	particleSize = 2;
+	ctx = canvas.getContext('2d');
+	cacheCanvas = document.createElement('canvas');
+    cacheCanvas.width = canvas.width;
+    cacheCanvas.height = canvas.height;
+	cacheCtx = cacheCanvas.getContext('2d');
+	particlesize = 2;
 	particles = [];
-	for(var i = 0; i < 100; i++) {
-		particles.push(new Particle(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
+	for(var i = 0; i < 200; i++) {
+		particles.push(new Entity(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
 			, new Vector()
 			, new Vector()
 			, Math.random * 10))
 	}
-	heatSources = [new HeatSource(new Vector(240, 320), 20)
-		,new HeatSource(new Vector(240, 160), -20)
-		,new HeatSource(new Vector(440, 320), 20)
-		,new HeatSource(new Vector(440, 160), -20)];
+	heatSources = [new HeatSource(new Vector(240, 320), 30)
+		,new HeatSource(new Vector(240, 160), -30)
+		,new HeatSource(new Vector(440, 320), 30)
+		,new HeatSource(new Vector(440, 160), -30)];
 	
-	fanny = new Image();
-	fanny.src = "https://i.imgur.com/WMjaM7u.png";
+	fanny = new Fanny(new Entity(new Vector(370,430)), "http://i.imgur.com/WMjaM7u.png");
 	
 	gameLoop();
 }
@@ -48,66 +53,65 @@ function gameLoop() {
 }
 
 function update() {
-	plotParticles(canvas.width, canvas.height);
+	plotparticles(canvas.width, canvas.height);
+	fanny.entity.reactToSource(heatSources, 1);
+	fanny.entity.reactToSource(particles, 1);
 }
 
 function draw() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	ctx.beginPath();
-	ctx.drawImage(fanny, 320, 380, 100, 100);
+	cacheCtx.clearRect(0, 0, canvas.width, canvas.height);
+	cacheCtx.beginPath();
+	drawFanny();
+	cacheCtx.fillText("Fanny's fanny is " + Math.round(fanny.entity.temp + 72) + " degrees Fahrenheit", 10, 15)
 	drawHeatSources();
-	drawParticles();
+	drawparticles();
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.drawImage(cacheCanvas, 0, 0);
 }
 
-function plotParticles(boundsX, boundsY) {
+function plotparticles(boundsX, boundsY) {
 	// a new array to hold particles within our bounds
-	var currentParticles = [];
+	var currentparticles = [];
 
 	for (var i = 0; i < particles.length; i++) {
-		var particle = particles[i];
-		var pos = particle.position;
+		var Particle = particles[i];
+		var pos = Particle.position;
 		
 		// gravity
-		particle.acceleration.add(new Vector(0, -.0001 * particle.temp));
+		Particle.acceleration.add(new Vector(0, -.0001 * Particle.temp));
 
 		// Update particles to account for all sources
-		particle.reactToSource(heatSources, 1);
-		particle.reactToSource(particles, 1/8);
-		
-		//collisions
-		if ((pos.x > canvas.width && particle.velocity.x > 0) || (pos.x < 0 && particle.velocity.x < 0)) {
-			particle.velocity = new Vector(-particle.velocity.x * .5, particle.velocity.y * (Math.random() - .5));
+		Particle.reactToSource(heatSources, 1);
+		Particle.reactToSource(particles, 1/6);
+		if (isNaN(Particle.temp)) {
+			Particle.temp = 0;
 		}
 		
-		if ((pos.y > canvas.height && particle.velocity.y > 0) || (pos.y < 0 && particle.velocity.y < 0)) {
-			particle.velocity = new Vector(particle.velocity.x * (Math.random() - .5), -particle.velocity.y * .5);
+		//collisions
+		if ((pos.x > canvas.width - 2 && Particle.velocity.x > 0) || (pos.x < 2 && Particle.velocity.x < 0)) {
+			Particle.velocity = new Vector(-Particle.velocity.x * .9, Particle.velocity.y * (Math.random() - .5));
+		}
+		
+		if ((pos.y > canvas.height - 2 && Particle.velocity.y > 0) || (pos.y < 2 && Particle.velocity.y < 0)) {
+			Particle.velocity = new Vector(Particle.velocity.x * (Math.random() - .5), -Particle.velocity.y * .9);
 		}
 		  
 		// Move our particles
-		particle.move();
+		Particle.move();
 
-		// Add this particle to the list of current particles
-		currentParticles.push(particle);
+		// Add this Particle to the list of current particles
+		currentparticles.push(Particle);
 	  
 	}
 
 	// Update our global particles, clearing room for old particles to be collected
-	particles = currentParticles;
+	particles = currentparticles;
 }
  
-function drawParticles() {
-	// For each particle
+function drawparticles() {
+	// For each Particle
 	for (var i = 0; i < particles.length; i++) {
-		var position = particles[i].position;
-		var color = "rgb(" + Math.round(192 + particles[i].temp * 4) + 
-			"," + Math.round(192 - Math.abs(particles[i].temp) * 4) + 
-			"," + Math.round(192 - particles[i].temp * 4) + ")";
-		ctx.fillStyle = color;
-
-		// Draw a circle at our position
-		ctx.beginPath();
-		ctx.arc(position.x, position.y, particleSize, 0, 2 * Math.PI, true);
-		ctx.fill();
+		drawEntity(particles[i]);
 	}
 }
 
@@ -118,13 +122,32 @@ function drawHeatSources() {
 		var color = "rgb(" + Math.round(192 + heatSources[i].temp) + 
 			"," + Math.round(192 - Math.abs(heatSources[i].temp)) + 
 			"," + Math.round(192 - heatSources[i].temp) + ")";
-		ctx.fillStyle = color;
+		cacheCtx.fillStyle = color;
 
 		// Draw a circle at our position
-		ctx.beginPath();
-		ctx.arc(position.x, position.y, 10, 0, 2 * Math.PI, true);
-		ctx.fill();
+		cacheCtx.beginPath();
+		cacheCtx.arc(position.x, position.y, 10, 0, 2 * Math.PI, true);
+		cacheCtx.fill();
 	}
+}
+
+function drawFanny() {
+	cacheCtx.drawImage(fanny.image, fanny.entity.position.x - 65, fanny.entity.position.y - 50, 100, 100);
+	drawEntity(fanny.entity)
+}
+
+function drawEntity(entity) {
+	var position = entity.position;
+	var color = "rgb(" + Math.round(192 + entity.temp * 8) + 
+		"," + Math.round(192 - Math.abs(entity.temp) * 8) + 
+		"," + Math.round(192 - entity.temp * 8) + ")";
+	cacheCtx.fillStyle = color;
+
+	// Draw a circle at our position
+	cacheCtx.beginPath();
+	cacheCtx.arc((0.5 + position.x) << 0, (0.5 + position.y) << 0, entity.size, 0, 2 * Math.PI, true); // optimized, but rough
+	//cacheCtx.arc(position.x, position.y, entity.size, 0, 2 * Math.PI, true); // less optimized, but smoother looking
+	cacheCtx.fill();
 }
 
 function Vector(x, y) {
@@ -153,18 +176,17 @@ Vector.prototype.scale = function(scalar) {
 	this.x = this.x * scalar;
 	this.y = this.y * scalar;
 }
-  
-// Add a vector to another
-Vector.prototype.normalize = function() {
-	this.x = this.x * 1 / this.getMagnitude;
-	this.y = this.y * 1 / this.getMagnitude;
-}
 
 // Add a vector to another
 Vector.prototype.setMagnitude = function(scalar) {
-	this.normalize();
-	this.x = this.x * scalar;
-	this.y = this.y * scalar;
+	var magniutude = Math.sqrt(this.x * this.x + this.y * this.y)
+	this.x = this.x * scalar / magniutude;
+	this.y = this.y * scalar / magniutude;
+}
+
+// Add a vector to another
+Vector.prototype.normalize = function() {
+	this.setMagnitude(1);
 }
 
 // Gets the angle accounting for the quadrant we're in
@@ -177,14 +199,15 @@ Vector.fromAngle = function (angle, magnitude) {
 	return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
 };
  
-function Particle(point, velocity, acceleration, temp) {
-	this.position = point || new Vector(320, 240);
+function Entity(position, velocity, acceleration, temp, size) {
+	this.position = position || new Vector(320, 240);
 	this.velocity = velocity || new Vector(0, 0);
 	this.acceleration = acceleration || new Vector(0, 0);
 	this.temp = temp || 0;
+	this.size = size || 2;
 }
 
-Particle.prototype.move = function () {	 
+Entity.prototype.move = function () {	 
 	this.position.add(new Vector((Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)
 		, (Math.random() - .5) * (Math.atan(this.temp/3) + Math.PI/2)))
 	// Add our current velocity to our position
@@ -196,23 +219,31 @@ Particle.prototype.move = function () {
 	this.acceleration = new Vector(0, 0);
 };
 
-Particle.prototype.reactToSource = function (sources, influence) {
+Entity.prototype.reactToSource = function (sources, influence) {
 	// for each passed source
 	for (var i = 0; i < sources.length; i++) {
 		var distVec = this.position.getDistanceVector(sources[i].position);
-		var dist = distVec.getMagnitude + 1;
-		if (dist > 0) {
-			this.temp += influence * (sources[i].temp - this.temp) / (dist ^ 2);
-			this.acceleration.add(distVec.setMagnitude(-1/(dist ^ 2)));
+		var dist = distVec.getMagnitude();
+		if (dist > 1) {
+			this.temp += influence * (sources[i].temp - this.temp) / (dist * dist);
+			distVec.setMagnitude(1 / (dist * dist))
+			this.acceleration.add(distVec);
 		}
 	}
 };
 
-function HeatSource(point, temp) {
-	this.position = point;
+function HeatSource(position, temp) {
+	this.position = position;
 	this.setHeat(temp);
 }
 
 HeatSource.prototype.setHeat = function(temp) {
     this.temp = temp || 100;
+}
+
+function Fanny(entity, icon) {
+	this.entity = entity;
+	this.image = new Image();
+	this.image.src = icon;
+	this.entity.size = 10;
 }
