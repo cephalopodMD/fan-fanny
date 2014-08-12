@@ -136,7 +136,7 @@ function drawFanny() {
 	if (fanny.entity.temp > 1) {
 		alertString += "a balmy "
 	}
-	if (fanny.entity.temp < 1) {
+	if (fanny.entity.temp < -1) {
 		alertString += "a frigid "
 	}
 	alertString += Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit"
