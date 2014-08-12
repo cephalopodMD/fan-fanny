@@ -131,12 +131,12 @@ function drawHeatSources() {
 
 function drawFanny() {
 	cacheCtx.drawImage(fanny.image, fanny.entity.position.x - 65, fanny.entity.position.y - 50, 100, 100);
-	drawEntity(fanny.entity)
-	tempuratureWarning = "Fanny's fanny is "
-	if (fanny.entity.temp > 2) {tempuratureWarning += "a balmy "
-	if (fanny.entity.temp < 2) {tempuratureWarning += "a biting "
-	tempuratureWarning +=Math.round(fanny.entity.temp + 72) + " degrees Fahrenheit"
-	cacheCtx.fillText(tempuratureWarning, 10, 15)
+	drawEntity(fanny.entity);
+	tempuratureWarning = "Fanny's fanny is ";
+	if (fanny.entity.temp > 2) {tempuratureWarning += "a balmy ";
+	if (fanny.entity.temp < 2) {tempuratureWarning += "a biting ";
+	tempuratureWarning +=Math.round(fanny.entity.temp + 72) + " degrees Fahrenheit";
+	cacheCtx.fillText(tempuratureWarning, 10, 15);
 }
 
 function drawEntity(entity) {
