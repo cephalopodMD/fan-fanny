@@ -54,8 +54,7 @@ function gameLoop() {
 
 function update() {
 	plotparticles(canvas.width, canvas.height);
-	fanny.entity.reactToSource(heatSources, 1);
-	fanny.entity.reactToSource(particles, 1);
+	fanny.entity.reactToSource(particles, 1/6);
 }
 
 function draw() {
