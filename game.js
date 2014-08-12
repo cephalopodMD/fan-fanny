@@ -140,7 +140,7 @@ function drawFanny() {
 		alertString += "a frigid "
 	}
 	alertString += Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit"
-	cacheCtx.fillText("Fanny's fanny is " + Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit", 10, 15);
+	cacheCtx.fillText(alertString, 10, 15);
 }
 
 function drawEntity(entity) {
