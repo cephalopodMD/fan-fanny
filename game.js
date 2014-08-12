@@ -41,7 +41,7 @@ function main() {
 		,new HeatSource(new Vector(440, 320), 30)
 		,new HeatSource(new Vector(440, 160), -30)];
 	
-	fanny = new Fanny(new Entity(new Vector(370,430)), "http://i.imgur.com/WMjaM7u.png");
+	fanny = new Fanny(new Entity(new Vector(370,430)), "https://i.imgur.com/WMjaM7u.png");
 	
 	gameLoop();
 }
