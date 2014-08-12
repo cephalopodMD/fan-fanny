@@ -132,6 +132,14 @@ function drawHeatSources() {
 function drawFanny() {
 	cacheCtx.drawImage(fanny.image, fanny.entity.position.x - 65, fanny.entity.position.y - 50, 100, 100);
 	drawEntity(fanny.entity);
+	var alertString = "Fanny's fanny is " 
+	if (fanny.entity.temp > 1) {
+		alertString += "a balmy "
+	}
+	if (fanny.entity.temp < 1) {
+		alertString += "a frigid "
+	}
+	alertString += Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit"
 	cacheCtx.fillText("Fanny's fanny is " + Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit", 10, 15);
 }
 
