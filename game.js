@@ -34,14 +34,14 @@ function main() {
 		particles.push(new Entity(new Vector(Math.random() * canvas.width, Math.random() * canvas.height)
 			, new Vector()
 			, new Vector()
-			, Math.random * 10));
-	};
+			, Math.random * 10))
+	}
 	heatSources = [new HeatSource(new Vector(240, 320), 30)
 		,new HeatSource(new Vector(240, 160), -30)
 		,new HeatSource(new Vector(440, 320), 30)
 		,new HeatSource(new Vector(440, 160), -30)];
 	
-	fanny = new Fanny(new Entity(new Vector(370,430)), "https://i.imgur.com/WMjaM7u.png");
+	fanny = new Fanny(new Entity(new Vector(370,430)), "http://i.imgur.com/WMjaM7u.png");
 	
 	gameLoop();
 }
@@ -132,11 +132,7 @@ function drawHeatSources() {
 function drawFanny() {
 	cacheCtx.drawImage(fanny.image, fanny.entity.position.x - 65, fanny.entity.position.y - 50, 100, 100);
 	drawEntity(fanny.entity);
-	tempuratureWarning = "Fanny's fanny is ";
-	if (fanny.entity.temp > 2) {tempuratureWarning += "a balmy ";
-	if (fanny.entity.temp < 2) {tempuratureWarning += "a biting ";
-	tempuratureWarning += "" + Math.round(fanny.entity.temp + 72) + " degrees Fahrenheit";
-	cacheCtx.fillText(tempuratureWarning, 10, 15);
+	cacheCtx.fillText("Fanny's fanny is " + Math.round(fanny.entity.temp * 2 + 72) + " degrees Fahrenheit", 10, 15);
 }
 
 function drawEntity(entity) {
