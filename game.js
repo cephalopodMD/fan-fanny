@@ -145,9 +145,9 @@ function drawFanny() {
 
 function drawEntity(entity) {
 	var position = entity.position;
-	var color = "rgb(" + Math.round(128 + entity.temp * 8) + 
-		"," + Math.round(128 - Math.abs(entity.temp) * 8) + 
-		"," + Math.round(128 - entity.temp * 8) + ")";
+	var color = "rgb(" + Math.round(192 + entity.temp * 8) + 
+		"," + Math.round(192 - Math.abs(entity.temp) * 8) + 
+		"," + Math.round(192 - entity.temp * 8) + ")";
 	cacheCtx.fillStyle = color;
 
 	// Draw a circle at our position
